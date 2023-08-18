@@ -13,32 +13,32 @@ services:
     volumes: 
       - ./data-osrm:/data
   #Graph Hopper
-  # graphhopper:
-  #   image: israelhikingmap/graphhopper
-  #   ports:
-  #     - "8989:8989"
-  #   volumes:
-  #     - ./data-graphhopper/config/config-gh.yml:/graphhopper/config/config.yml
-  #     - ./data-graphhopper/data/pennsylvania-latest.osm.pbf:/graphhopper/data/merge.osm.pbf
-  #   environment:
-  #     - JAVA_OPTS=-Xmx6g 
-  #   command: -i /graphhopper/data/merge.osm.pbf --host 0.0.0.0 --config /graphhopper/config/config.yml
-  # # Ors-app
-  # ors-app:
-  #   container_name: ors-app
-  #   ports:
-  #     - "8080:8080"
-  #     - "9001:9001"
-  #   image: openrouteservice/openrouteservice:latest
-  #   user: "${UID:-0}:${GID:-0}"
-  #   volumes:
-  #     - ./data-ors/docker/graphs:/home/ors/ors-core/data/graphs
-  #     - ./data-ors/docker/elevation_cache:/home/ors/ors-core/data/elevation_cache
-  #     - ./data-ors/docker/logs/ors:/home/ors/logs
-  #     - ./data-ors/docker/logs/tomcat:/home/ors/tomcat/logs
-  #     - ./data-ors/docker/conf:/home/ors/ors-conf
-  #     - ./data-ors/data/pennsylvania-latest.osm.pbf:/home/ors/ors-core/data/osm_file.pbf
-  #   environment:
-  #     - BUILD_GRAPHS=True  # Forces the container to rebuild the graphs, e.g. when PBF is changed
-  #     - "JAVA_OPTS=-Djava.awt.headless=true -server -XX:TargetSurvivorRatio=75 -XX:SurvivorRatio=64 -XX:MaxTenuringThreshold=3 -XX:+UseG1GC -XX:+ScavengeBeforeFullGC -XX:ParallelGCThreads=4 -Xms2g -Xmx4g"
-  #     - "CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9001 -Dcom.sun.management.jmxremote.rmi.port=9001 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost"
+  graphhopper:
+    image: israelhikingmap/graphhopper
+    ports:
+      - "8989:8989"
+    volumes:
+      - ./data-graphhopper/config/config-gh.yml:/graphhopper/config/config.yml
+      - ./data-graphhopper/data/pennsylvania-latest.osm.pbf:/graphhopper/data/merge.osm.pbf
+    environment:
+      - JAVA_OPTS=-Xmx2g 
+    command: -i /graphhopper/data/merge.osm.pbf --host 0.0.0.0 --config /graphhopper/config/config.yml
+  # Ors-app
+  ors-app:
+    container_name: ors-app
+    ports:
+      - "8080:8080"
+      - "9001:9001"
+    image: openrouteservice/openrouteservice:latest
+    user: "${UID:-0}:${GID:-0}"
+    volumes:
+      - ./data-ors/docker/graphs:/home/ors/ors-core/data/graphs
+      - ./data-ors/docker/elevation_cache:/home/ors/ors-core/data/elevation_cache
+      - ./data-ors/docker/logs/ors:/home/ors/logs
+      - ./data-ors/docker/logs/tomcat:/home/ors/tomcat/logs
+      - ./data-ors/docker/conf:/home/ors/ors-conf
+      - ./data-ors/data/pennsylvania-latest.osm.pbf:/home/ors/ors-core/data/osm_file.pbf
+    environment:
+      - BUILD_GRAPHS=True  # Forces the container to rebuild the graphs, e.g. when PBF is changed
+      - "JAVA_OPTS=-Djava.awt.headless=true -server -XX:TargetSurvivorRatio=75 -XX:SurvivorRatio=64 -XX:MaxTenuringThreshold=3 -XX:+UseG1GC -XX:+ScavengeBeforeFullGC -XX:ParallelGCThreads=4 -Xms1g -Xmx2g"
+      - "CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9001 -Dcom.sun.management.jmxremote.rmi.port=9001 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost"
